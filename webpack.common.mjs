@@ -21,7 +21,7 @@ export default {
     ]
   },
   output: {
-    path: path.resolve("dist"),
+    path: path.resolve("docs"),
     clean: true,
     filename: "./scripts/main.js"
   }

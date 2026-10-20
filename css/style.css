@@ -88,12 +88,47 @@
     color: #222;
     background-color: #fff;
   }
-  .circle {
-    opacity:.8;
-  }
-  .circle:hover {
-    opacity:1;
-  }
+.comic-node {
+  opacity: 0.92;
+  filter: drop-shadow(0px 2px 5px rgba(0, 0, 0, 0.4));
+  transition: opacity 0.2s ease;
+  cursor: pointer;
+}
+
+.comic-node.dimmed {
+  opacity: 0.22;
+}
+
+.comic-node.active {
+  opacity: 1;
+  filter: drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.65));
+}
+
+.circle-border {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 2px;
+  pointer-events: none;
+  transition: stroke 0.2s ease, stroke-width 0.2s ease;
+}
+
+.comic-node.active .circle-border {
+  stroke: #036;
+  stroke-width: 3.5px;
+}
+
+.tooltip {
+  background-color: #036;
+  border-radius: 5px;
+  width: auto;
+  color: #fff;
+  position: absolute;
+  font-family: "Comic Neue";
+  padding: 10px;
+  pointer-events: none;
+  z-index: 10;
+}
+
   text.label {
     
     font-family: "Comic Neue";
