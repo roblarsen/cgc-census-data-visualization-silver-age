@@ -80,7 +80,7 @@ export function drawBubbleChart(data: Comic[]) {
   const z = d3
     .scaleSqrt()
     .domain([0, maxPop])
-    .range([32, 110]);
+    .range([24, 110]);
 
   // Define clipPaths first
   svg
