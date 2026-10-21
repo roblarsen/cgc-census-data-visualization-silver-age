@@ -126,8 +126,30 @@ export function drawBubbleChart(data: Comic[]) {
     .attr("cy", (d: Comic) => y(d.top50Average))
     .attr("r", (d: Comic) => z(d.population) / 2);
 
+ const positionTooltip = (e: MouseEvent) => {
+    const node = tooltip.node() as HTMLElement;
+    const tooltipWidth = node.offsetWidth;
+    const tooltipHeight = node.offsetHeight;
+    const offset = 20;
+
+    // Flip to the left of the cursor if it overflows the right viewport edge
+    let left = e.pageX + offset;
+    if (left + tooltipWidth > window.scrollX + window.innerWidth - offset) {
+      left = e.pageX - tooltipWidth - offset;
+    }
+
+    // Flip above the cursor if it overflows the bottom viewport edge
+    let top = e.pageY + offset;
+    if (top + tooltipHeight > window.scrollY + window.innerHeight - offset) {
+      top = e.pageY - tooltipHeight - offset;
+    }
+
+    tooltip
+      .style("left", `${Math.max(offset, left)}px`)
+      .style("top", `${Math.max(offset, top)}px`);
+  };
+
   const showTooltip = function (this: SVGGElement, e: MouseEvent, d: Comic) {
-    // Spotlight hovered book and bring to front of the cluster
     nodes.classed("dimmed", true);
     d3.select(this).classed("dimmed", false).classed("active", true).raise();
 
@@ -151,19 +173,15 @@ export function drawBubbleChart(data: Comic[]) {
         <dd>${d.date}</dd>
       </dl>
     `;
-    tooltip
-      .style("display", "block")
-      .html(text)
-      .style("left", e.pageX + 20 + "px")
-      .style("top", e.pageY + 20 + "px");
+
+    // Render block and populate HTML first so offsetWidth/offsetHeight are accurate
+    tooltip.style("display", "block").html(text);
+    positionTooltip(e);
   };
 
   const moveTooltip = (e: MouseEvent) => {
-    tooltip
-      .style("left", `${e.pageX + 20}px`)
-      .style("top", `${e.pageY + 20}px`);
+    positionTooltip(e);
   };
-
   const hideTooltip = () => {
     nodes
       .classed("dimmed", false)
